@@ -14,7 +14,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
 
-  # Express Backend
+  # Express Backend (Node.js)
   server:
     build: ./server
     container_name: microblog_server
