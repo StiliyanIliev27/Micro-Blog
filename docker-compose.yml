@@ -1,22 +1,49 @@
 version: "3.8"
+
 services:
-  mongodb:
-    image: mongo:latest
-    container_name: database
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=examplepassword
+  # MongoDB Database
+  mongo:
+    image: mongo:6
+    container_name: microblog_db
+    restart: always
     ports:
-      - "27017:27017"  # MongoDB default port
+      - "27017:27017"
     volumes:
-      - mongodb-data:/data/db  # Store data persistently
-    networks:
-      - microblog-network
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+
+  # Express Backend
+  server:
+    build: ./server
+    container_name: microblog_server
+    restart: always
+    volumes:
+      - ./server:/app  # Sync local files with the container
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: "mongodb://root:rootpassword@mongo:27017/micro-blog?authSource=admin"
+      SESSION_SECRET: "supersecret"
+      PORT: 5000
+    command: ["npm", "start"]  # Ensure the app starts
+
+  # Vue Frontend
+  client:
+    build: ./client
+    container_name: microblog_client
+    restart: always
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    ports:
+      - "5173:80"  # Map Nginx (80) to local port 5173
+    depends_on:
+      - server
 
 volumes:
-  mongodb-data:
+  mongo_data:
     driver: local
-
-networks:
-  microblog-network:
-    driver: bridge

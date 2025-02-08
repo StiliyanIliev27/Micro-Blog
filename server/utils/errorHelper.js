@@ -1,9 +1,10 @@
-exports.getErrorMessage = (err) => {
-
-    let errorMessage = err.message;
-
-    if (err.errors) {
-        errorMessage = Object.values(err.errors)[0].message;
+const getErrorMessage = (err, req, res, next) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Something went wrong!');
     }
-    return errorMessage;
-}
+    next();
+  };
+  
+module.exports = { getErrorMessage };
+  

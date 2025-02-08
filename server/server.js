@@ -1,7 +1,5 @@
 require('dotenv').config();
 const express = require("express");
-
-
 const { initDb } = require("./config/databaseConfig");
 const expressConfig = require("./config/expressConfig");
 const { getErrorMessage } = require("./utils/errorHelper");
