@@ -1,0 +1,67 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Trigger this workflow for pushes to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger this workflow for pull requests targeting the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Set up Node.js for both client and server
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Set the version of Node.js you are using
+
+    # Install dependencies for the client
+    - name: Install client dependencies
+      working-directory: ./client
+      run: npm install
+
+    # Install dependencies for the server
+    - name: Install server dependencies
+      working-directory: ./server
+      run: npm install
+
+    # Build the client if necessary (e.g., for Vue.js)
+    - name: Build client
+      working-directory: ./client
+      run: npm run build
+
+    # Build the server if necessary (e.g., for production)
+    - name: Build server
+      working-directory: ./server
+      run: npm run build
+
+    # Optionally: Build Docker images for both client and server (if using Docker)
+    - name: Build Docker image for client
+      working-directory: ./client
+      run: docker build -t my-client-image .
+
+    - name: Build Docker image for server
+      working-directory: ./server
+      run: docker build -t my-server-image .
+
+  deploy:
+    needs: build  # Only runs after the build job has successfully completed
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Render (Server)
+        run: |
+          curl -X POST https://api.render.com/deploy/srv-cuju21qj1k6c73d2e3n0?key=x02s_PCj_Tc
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"  # Add your Render API key in GitHub secrets
+
+      - name: Deploy to Render (Client)
+        run: |
+          curl -X POST https://api.render.com/deploy/srv-cujuph3tq21c73e2e110?key=BTOwOvGDMDk
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"  # Add your Render API key in GitHub secrets
