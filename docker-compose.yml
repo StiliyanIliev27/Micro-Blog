@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: database
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=examplepassword
+    ports:
+      - "27017:27017"  # MongoDB default port
+    volumes:
+      - mongodb-data:/data/db  # Store data persistently
+    networks:
+      - microblog-network
+
+volumes:
+  mongodb-data:
+    driver: local
+
+networks:
+  microblog-network:
+    driver: bridge
