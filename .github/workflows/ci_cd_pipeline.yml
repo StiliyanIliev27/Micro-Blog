@@ -38,19 +38,14 @@ jobs:
       working-directory: ./client
       run: npm run build
 
-    # Build the server if necessary (e.g., for production)
-    - name: Build server
-      working-directory: ./server
-      run: npm run build
-
     # Optionally: Build Docker images for both client and server (if using Docker)
     - name: Build Docker image for client
       working-directory: ./client
-      run: docker build -t my-client-image .
+      run: docker build -t micro-blog-client .
 
     - name: Build Docker image for server
       working-directory: ./server
-      run: docker build -t my-server-image .
+      run: docker build -t micro-blog-server .
 
   deploy:
     needs: build  # Only runs after the build job has successfully completed
