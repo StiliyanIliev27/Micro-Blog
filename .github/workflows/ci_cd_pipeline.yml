@@ -53,10 +53,10 @@ jobs:
     steps:
       - name: Deploy to Render (Server)
         run: |
-          curl -X POST https://api.render.com/deploy/srv-cuju21qj1k6c73d2e3n0?key=x02s_PCj_Tc
+          curl -X POST "https://api.render.com/deploy/srv-cuju21qj1k6c73d2e3n0?key=x02s_PCj_Tc" \
           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"  # Add your Render API key in GitHub secrets
 
       - name: Deploy to Render (Client)
         run: |
-          curl -X POST https://api.render.com/deploy/srv-cujuph3tq21c73e2e110?key=BTOwOvGDMDk
+          curl -X POST "https://api.render.com/deploy/srv-cujuph3tq21c73e2e110?key=BTOwOvGDMDk" \
           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"  # Add your Render API key in GitHub secrets
