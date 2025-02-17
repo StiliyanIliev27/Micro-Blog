@@ -1,5 +1,6 @@
 <script setup>
 import { computed, defineProps, ref } from 'vue';
+import PostButton from './PostButton.vue';
 
 // Define props
 const props = defineProps({
@@ -59,7 +60,7 @@ const commentsText = computed(() => `${comments.value} ${comments.value === 1 ? 
 		</div>
 		<div v-if="isCommentModalOpen">
 			<textarea class="w-full h-24 bg-gray-700 text-gray-100 p-2 rounded-lg" placeholder="Write a comment"></textarea>
-			<button class="w-full bg-blue-600 text-white p-2 rounded-lg cursor-pointer">Post</button>
+			<PostButton specialClass="w-full"/>
 		</div>
 	</div>
 </template>

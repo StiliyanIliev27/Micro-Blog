@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue'
-import FileUploadButton from '../components/FileUploadButton.vue'
+import { ref } from 'vue';
+import FileUploadButton from '../components/FileUploadButton.vue';
+import PostButton from './PostButton.vue';
 
 // Reactive variables for media previews
 const postImage = ref(null)
@@ -94,10 +95,6 @@ function handleUpload(event) {
     </section>
 
     <!-- Post Button -->
-    <section class="flex justify-end mt-4">
-      <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-full">
-        Post
-      </button>
-    </section>
+    <PostButton specialClass="w-full"/>
   </div>
 </template>
