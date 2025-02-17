@@ -39,24 +39,36 @@ jobs:
       run: npm run build
 
     # Optionally: Build Docker images for both client and server (if using Docker)
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
     - name: Build Docker image for client
       working-directory: ./client
-      run: docker build -t micro-blog-client .
+      run: |
+        docker build -t stiliyan7/micro-blog-client:latest .
+        docker tag stiliyan7/micro-blog-client:latest stiliyan7/micro-blog-client:latest
+        docker push stiliyan7/micro-blog-client:latest
 
     - name: Build Docker image for server
       working-directory: ./server
-      run: docker build -t micro-blog-server .
+      run: |
+        docker build -t stiliyan7/micro-blog-server:latest .
+        docker tag stiliyan7/micro-blog-server:latest stiliyan7/micro-blog-server:latest
+        docker push stiliyan7/micro-blog-server:latest
+
 
   deploy:
-    needs: build  # Only runs after the build job has successfully completed
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Render (Server)
         run: |
-          curl -X POST "https://api.render.com/deploy/srv-cuju21qj1k6c73d2e3n0?key=x02s_PCj_Tc" \
-          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"  # Add your Render API key in GitHub secrets
-
+          curl -X POST "https://api.render.com/deploy/srv-cuju21qj1k6c73d2e3n0?key=${{ secrets.RENDER_API_KEY }}"
+  
       - name: Deploy to Render (Client)
         run: |
-          curl -X POST "https://api.render.com/deploy/srv-cujuph3tq21c73e2e110?key=BTOwOvGDMDk" \
-          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"  # Add your Render API key in GitHub secrets
+          curl -X POST "https://api.render.com/deploy/srv-cujuph3tq21c73e2e110?key=${{ secrets.RENDER_API_KEY }}"
+
