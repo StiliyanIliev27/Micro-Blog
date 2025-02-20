@@ -10,7 +10,7 @@ const props = defineProps({
 <template>
   <section class="flex justify-end mt-4">
     <button 
-      :class="[specialClass, 'bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-full']">
+      :class="[specialClass, 'bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-full cursor-pointer']">
       Post
     </button>
   </section>
