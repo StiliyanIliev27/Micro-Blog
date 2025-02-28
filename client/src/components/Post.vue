@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineProps, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import PostButton from './PostButton.vue';
 import PostComment from './PostComment.vue';
 
@@ -33,6 +33,10 @@ const COMMENTS = [
 // Define props
 const props = defineProps({
   post: {
+    user: {
+      username: String,
+      profileImage: String,
+    },
     title: String,
     content: String,
     media: File,
@@ -92,13 +96,20 @@ watch(newComment, (newVal) => {
 // Optional: Computed property for derived data
 const likesText = computed(() => `${likes.value} ${likes.value === 1 ? 'Like' : 'Likes'}`);
 const commentsText = computed(() => `${comments.value} ${comments.value === 1 ? 'Comment' : 'Comments'}`);
-const filteredComments = computed(() => COMMENTS.filter(comment => comment.postId === selectedPostId));
+const filteredComments = computed(() => COMMENTS.filter(comment => comment.postId === selectedPostId.value));
 </script>
 
 
 <template>
   <div class="flex flex-col gap-5 bg-gray-800 text-gray-100 mb-5 rounded-lg p-5">
-    <h1 class="text-lg">{{ post.title }}</h1>
+    <div class="flex items-center justify-between">
+      <h1 class="text-lg font-bold">{{ post.title }}</h1>
+      <div class="flex items-center gap-2">
+        <strong>{{ post.user.username }}</strong>
+        <img src="../assets/avatar.avif" class="w-10 h-10 rounded-full object-cover border border-white"
+          alt="profile image">
+      </div>
+    </div>
     <p class="text-md">{{ post.content }}</p>
     <img class="object-cover w-full h-64 rounded-sm" :src="post.media">
     <div class="emoji-container flex gap-3 items-center">

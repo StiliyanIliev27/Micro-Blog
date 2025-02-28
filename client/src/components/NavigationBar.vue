@@ -19,7 +19,7 @@ import NavigationItem from './NavigationItem.vue';
 				<NavigationItem iconClass="fa-solid fa-user" text="Profile" />
 			</li>
 			<li>
-				<button class="bg-neutral-50 text-md font-semibold px-10 py-3 w-full rounded-full hover:bg-neutral-200 cursor-pointer">Post</button>
+				<button class="bg-neutral-50 text-black text-md font-semibold px-10 py-3 w-full rounded-full hover:bg-neutral-200 cursor-pointer">Post</button>
 			</li>
 		</ul>
 	</nav>
